@@ -9,17 +9,16 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Max-Age', '86400');
 
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-res.setHeader('Access-Control-Max-Age', '86400');
-
-
+  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
-  res.status(200).end();
-  return;
-}
+    return res.status(200).end();
+  }
 
 
   if (req.method !== 'POST') {
